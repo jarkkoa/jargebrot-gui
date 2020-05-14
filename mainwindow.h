@@ -15,7 +15,20 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void on_pushButton_clicked();
+
 private:
     Ui::MainWindow *ui;
+
+    unsigned int iterations_;
+    unsigned int imageSize_;
+    double xCoordinate_;
+    double yCoordinate_;
+    unsigned int zoomFactor_;
+
+    const unsigned int previewIterations_;
+    const unsigned int previewSize_;
+    std::string fileName_;
 };
 #endif // MAINWINDOW_H
