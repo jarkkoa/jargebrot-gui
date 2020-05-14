@@ -5,7 +5,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
-    , previewIterations_(100), previewSize_(200), fileName_("jargebrot.png")
+    , previewIterations_(100), previewSize_(200), fileName_("jargebrot.ppm")
 {
     ui->setupUi(this);
 }
@@ -27,7 +27,7 @@ void MainWindow::on_pushButton_clicked()
     std::vector<uint8_t> imageBuffer;
     unsigned int x, y;
 
-    #pragma omp parallel
+    //#pragma omp parallel
     {
         std::vector<uint8_t> partialImageBuffer;
 
@@ -41,12 +41,12 @@ void MainWindow::on_pushButton_clicked()
                 partialImageBuffer.push_back(pixelValue);
             }
         }
-        #pragma omp critical
+        //#pragma omp critical
         imageBuffer.insert(imageBuffer.end(), partialImageBuffer.begin(),
                            partialImageBuffer.end());
     }
 
-    //drawPNG(imageBuffer, fileName_, imageSize_);
+    drawPPM(imageBuffer, fileName_, imageSize_);
 
     ui->pushButton->setDisabled(false);
 

@@ -1,6 +1,7 @@
 #include "utilities.h"
 #include "lodepng/lodepng.h"
 #include <fstream>
+#include <iostream>
 #include <QDebug>
 #include <complex>
 
@@ -36,4 +37,27 @@ uint8_t calculateMandelbrot(const unsigned int &iterations,
         if (currentIteration < maxIterations)
             return 255*currentIteration/maxIterations;
         else return 0;
+}
+
+void drawPPM(std::vector<uint8_t> pixels, const std::string &fileName, unsigned int &imageSize)
+{
+    // Draws a PPM image using color data from iterate()
+    std::ofstream imageFile(fileName, std::ios::trunc);
+    std::string line;
+    std::string pixel_value;
+
+    if (imageFile) {
+
+        imageFile << "P3\n" << imageSize << " " << imageSize << "\n" << "255\n";
+
+        for (auto &pixel : pixels) {
+            pixel_value = std::to_string(pixel);
+            line = pixel_value + " " + pixel_value + " " + pixel_value + "\n";
+            imageFile << line;
+        }
+
+        imageFile.close();
+
+    } else
+        qDebug() << "Could not create image file. Check file permissions.";
 }
