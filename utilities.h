@@ -15,11 +15,10 @@
  * @return Color value of a single pixel
  */
 uint8_t calculateMandelbrot(const unsigned int &iterations,
-                            const unsigned int &zoom, const double &re,
+                            const double &zoom, const double &re,
                             const double &im, const double &xCoordinate,
                             const double &yCoordinate,
-                            const unsigned int &imageSize,
-                            const unsigned int maxIterations);
+                            const unsigned int &imageSize);
 
 /**
  * @brief writePNG Saves the image buffer into a PNG file by using LodePNG.

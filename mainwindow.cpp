@@ -33,13 +33,13 @@ void MainWindow::on_pushButton_clicked()
     {
         std::vector<uint8_t> partialImageBuffer;
 
-        #pragma omp for nowait
+        //#pragma omp for nowait
         for (y = 0; y < imageSize_; ++y) {
             for (x = 0; x < imageSize_; ++x) {
                 uint8_t pixelValue =
                         calculateMandelbrot(iterations_, zoomFactor_,
                                             x, y, xCoordinate_, yCoordinate_,
-                                            imageSize_, iterations_);
+                                            imageSize_);
                 partialImageBuffer.push_back(pixelValue);
             }
         }

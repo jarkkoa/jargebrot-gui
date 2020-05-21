@@ -25,7 +25,7 @@ private:
     unsigned int imageSize_;
     double xCoordinate_;
     double yCoordinate_;
-    unsigned int zoomFactor_;
+    double zoomFactor_;
 
     const unsigned int previewIterations_;
     const unsigned int previewSize_;
