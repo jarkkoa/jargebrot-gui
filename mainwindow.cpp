@@ -23,6 +23,8 @@ void MainWindow::on_pushButton_clicked()
     iterations_ = ui->iterSpinBox->value();
     imageSize_ = ui->sizeSpinBox->value();
     zoomFactor_ = ui->zoomSpinBox->value();
+    xCoordinate_ = ui->xCoorSB->value();
+    yCoordinate_ = ui->yCoorSB->value();
 
     std::vector<uint8_t> imageBuffer;
     unsigned int x, y;
