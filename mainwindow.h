@@ -18,6 +18,8 @@ public:
 private slots:
     void on_pushButton_clicked();
 
+    void on_sizeSpinBox_valueChanged(int arg1);
+
 private:
     Ui::MainWindow *ui;
 
@@ -32,6 +34,5 @@ private:
     std::string fileName_;
 
     uint8_t* pixelArray_;
-    bool isAllocated_;
 };
 #endif // MAINWINDOW_H
