@@ -30,5 +30,8 @@ private:
     const unsigned int previewIterations_;
     const unsigned int previewSize_;
     std::string fileName_;
+
+    uint8_t* pixelArray_;
+    bool isAllocated_;
 };
 #endif // MAINWINDOW_H

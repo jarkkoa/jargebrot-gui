@@ -6,6 +6,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , previewIterations_(100), previewSize_(200), fileName_("jargebrot.ppm")
+    , isAllocated_(false)
 {
     ui->setupUi(this);
 }
@@ -13,6 +14,9 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+
+    if (isAllocated_)
+        free(pixelArray_);
 }
 
 
@@ -26,13 +30,12 @@ void MainWindow::on_pushButton_clicked()
     xCoordinate_ = ui->xCoorSB->value();
     yCoordinate_ = ui->yCoorSB->value();
 
-    std::vector<uint8_t> imageBuffer;
-    uint8_t *pixelArray = (uint8_t*)malloc(imageSize_*imageSize_);
+    pixelArray_ = (uint8_t*)malloc(imageSize_*imageSize_);
+    isAllocated_ = true;
 
     #pragma omp parallel
     {
         unsigned int x, y;
-        std::vector<uint8_t> partialImageBuffer;
         uint8_t pixelValue;
 
         #pragma omp for
@@ -41,12 +44,13 @@ void MainWindow::on_pushButton_clicked()
                 pixelValue = calculateMandelbrot(iterations_, zoomFactor_,
                                             x, y, xCoordinate_, yCoordinate_,
                                             imageSize_);
-                pixelArray[y*imageSize_+x] = pixelValue;
+                pixelArray_[y*imageSize_+x] = pixelValue;
             }
         }
     }
 
-    drawPPM(pixelArray, fileName_, imageSize_);
+    drawPPM(pixelArray_, fileName_, imageSize_);
+
 
     ui->pushButton->setDisabled(false);
 
