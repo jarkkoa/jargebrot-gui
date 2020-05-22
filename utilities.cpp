@@ -40,7 +40,7 @@ uint8_t calculateMandelbrot(const unsigned int &iterations,
 
 
 
-void drawPPM(std::vector<uint8_t> pixels, const std::string &fileName,
+void drawPPM(uint8_t *pixels, const std::string &fileName,
              unsigned int &imageSize)
 {
     // Draws a PPM image using color data from iterate()
@@ -52,8 +52,8 @@ void drawPPM(std::vector<uint8_t> pixels, const std::string &fileName,
 
         imageFile << "P3\n" << imageSize << " " << imageSize << "\n" << "255\n";
 
-        for (auto &pixel : pixels) {
-            pixel_value = std::to_string(pixel);
+        for (unsigned int i = 0; i < imageSize*imageSize; ++i, ++pixels) {
+            pixel_value = std::to_string(*pixels);
             line = pixel_value + " " + pixel_value + " " + pixel_value + "\n";
             imageFile << line;
         }

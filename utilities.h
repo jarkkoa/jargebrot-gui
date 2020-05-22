@@ -26,10 +26,10 @@ uint8_t calculateMandelbrot(const unsigned int &iterations,
  * @param fileName
  * @param imageSize
  */
-void drawPNG(std::vector<uint8_t> pixels, const std::string& fileName,
+void drawPNG(uint8_t pixels[], const std::string& fileName,
               unsigned int& imageSize);
 
-void drawPPM(std::vector<uint8_t> pixels, const std::string& fileName,
+void drawPPM(uint8_t *pixels, const std::string& fileName,
              unsigned int& imageSize);
 
 #endif // CALCULATIONS_H

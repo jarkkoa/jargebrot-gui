@@ -27,28 +27,26 @@ void MainWindow::on_pushButton_clicked()
     yCoordinate_ = ui->yCoorSB->value();
 
     std::vector<uint8_t> imageBuffer;
-    unsigned int x, y;
+    uint8_t *pixelArray = (uint8_t*)malloc(imageSize_*imageSize_);
 
-    //#pragma omp parallel
+    #pragma omp parallel
     {
+        unsigned int x, y;
         std::vector<uint8_t> partialImageBuffer;
+        uint8_t pixelValue;
 
-        //#pragma omp for nowait
+        #pragma omp for
         for (y = 0; y < imageSize_; ++y) {
             for (x = 0; x < imageSize_; ++x) {
-                uint8_t pixelValue =
-                        calculateMandelbrot(iterations_, zoomFactor_,
+                pixelValue = calculateMandelbrot(iterations_, zoomFactor_,
                                             x, y, xCoordinate_, yCoordinate_,
                                             imageSize_);
-                partialImageBuffer.push_back(pixelValue);
+                pixelArray[y*imageSize_+x] = pixelValue;
             }
         }
-        //#pragma omp critical
-        imageBuffer.insert(imageBuffer.end(), partialImageBuffer.begin(),
-                           partialImageBuffer.end());
     }
 
-    drawPPM(imageBuffer, fileName_, imageSize_);
+    drawPPM(pixelArray, fileName_, imageSize_);
 
     ui->pushButton->setDisabled(false);
 
