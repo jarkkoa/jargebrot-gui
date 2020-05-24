@@ -30,8 +30,8 @@ void MainWindow::on_pushButton_clicked()
     xCoordinate_ = ui->xCoorSB->value();
     yCoordinate_ = ui->yCoorSB->value();
 
-    pixelArray_ = (uint8_t*)malloc(imageSize_*imageSize_);
-//    std::vector<uint8_t> imageBuffer(imageSize_*imageSize_);
+//    pixelArray_ = (uint8_t*)malloc(imageSize_*imageSize_);
+    std::vector<uint8_t> imageBuffer(imageSize_*imageSize_);
 
     #pragma omp parallel
     {
@@ -41,18 +41,20 @@ void MainWindow::on_pushButton_clicked()
         #pragma omp for nowait
         for (y = 0; y < imageSize_; ++y) {
             for (x = 0; x < imageSize_; ++x) {
-                pixelValue = calculateMandelbrot(iterations_, zoomFactor_,
-                                            x, y, xCoordinate_, yCoordinate_,
-                                            imageSize_);
-                pixelArray_[y*imageSize_+x] = pixelValue;
+
+                pixelValue = calculateMandelbrot(iterations_, zoomFactor_, x, y,
+                                                 xCoordinate_, yCoordinate_,
+                                                 imageSize_);
+
+                imageBuffer[y*imageSize_+x] = pixelValue;
             }
         }
     }
 
-    drawPNG(pixelArray_, fileName_, imageSize_);
+    drawPNG(imageBuffer, fileName_, imageSize_);
 //    ui->pushButton->setDisabled(false);
 //    ui->drawingStatus->setText("Done!");
-    free(pixelArray_);
+//    free(pixelArray_);
 
 }
 

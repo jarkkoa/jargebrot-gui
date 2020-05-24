@@ -33,8 +33,11 @@ uint8_t calculateMandelbrot(const unsigned int &iterations,
         }
 
         // Returns a color value for a single pixel.
-        if (currentIteration < iterations)
+        if (currentIteration < iterations) {
             return 255*currentIteration/iterations;
+        }
+
+
         else return 0;
 }
 
@@ -66,26 +69,12 @@ void drawPPM(uint8_t *pixels, const std::string &fileName,
 
 
 
-void drawPNG(uint8_t *pixels, const std::string &fileName,
+void drawPNG(std::vector<uint8_t>& imageBuffer, const std::string &fileName,
              unsigned int &imageSize) {
-
-    // LodePNG requires a vector of pixels, so the array must be converted
-
-    std::vector<uint8_t> imageBuffer;
-
-    for (unsigned int i = 0; i < imageSize*imageSize; ++i, ++pixels) {
-
-        imageBuffer.push_back(*pixels);
-        imageBuffer.push_back(*pixels);
-        imageBuffer.push_back(*pixels);
-        imageBuffer.push_back(255);
-
-    }
-
 
     //Encode the image
     unsigned error = lodepng::encode(fileName, imageBuffer,
-                                     imageSize, imageSize);
+                                     imageSize, imageSize, LCT_GREY);
 
     //if there's an error, display it
     if(error) std::cout << "encoder error " << error
