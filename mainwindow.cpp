@@ -38,7 +38,7 @@ void MainWindow::on_pushButton_clicked()
         unsigned int x, y;
         uint8_t pixelValue;
 
-        #pragma omp for nowait
+        #pragma omp for collapse(2) nowait
         for (y = 0; y < imageSize_; ++y) {
             for (x = 0; x < imageSize_; ++x) {
 
