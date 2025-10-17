@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
     , previewIterations_(100), previewSize_(200), fileName_("jargebrot.png")
 {
     ui->setupUi(this);
-    ui->memUsageLabel->setText("160 KB");
+    //ui->memUsageLabel->setText("160 KB");
 }
 
 
@@ -42,7 +42,7 @@ void MainWindow::on_pushButton_clicked()
         for (y = 0; y < imageSize_; ++y) {
             for (x = 0; x < imageSize_; ++x) {
 
-                pixelValue = calculateMandelbrot(iterations_, zoomFactor_, x, y,
+                pixelValue = Jarge::calculateMandelbrot(iterations_, zoomFactor_, x, y,
                                                  xCoordinate_, yCoordinate_,
                                                  imageSize_);
 
@@ -51,7 +51,7 @@ void MainWindow::on_pushButton_clicked()
         }
     }
 
-    drawPNG(imageBuffer, fileName_, imageSize_);
+    Jarge::drawPNG(imageBuffer, fileName_, imageSize_);
 //    ui->pushButton->setDisabled(false);
 //    ui->drawingStatus->setText("Done!");
 //    free(pixelArray_);

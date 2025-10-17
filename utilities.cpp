@@ -3,47 +3,49 @@
 #include <fstream>
 #include <iostream>
 #include <QDebug>
-#include <complex>
 
 
-uint8_t calculateMandelbrot(const unsigned int &iterations,
-                            const double &zoom, const double &re,
-                            const double &im, const double &xCoordinate,
-                            const double &yCoordinate,
-                            const unsigned int &imageSize)
+uint8_t Jarge::calculateMandelbrot(unsigned int iterations, double zoom,
+                                   long double re, long double im,
+                                   long double xCoordinate,
+                                   long double yCoordinate,
+                                   unsigned int imageSize)
 {
         // z = z^2 + c, determines if a single complex number (pixel) is in the
         // mandelbrot set.
-        unsigned int currentIteration = 1;
+        unsigned int i;
+        long double temp;
+        Jarge::Complex z = {0,0};
+        Jarge::Complex c;
 
         // Convert the current pixel to a complex number.
         // Re and Im are multiplied by 4 to scale the image properly. Offset -2
         // centers the image.
-        std::complex<long double> z(0, 0);
-        std::complex<long double> c(re*(4/zoom)/(long double)imageSize +
-                                    (xCoordinate - (2/zoom)),
-                                    im*(4/zoom)/(long double)imageSize +
-                                    (-yCoordinate - (2/zoom)));
+        c.re = re*(4/zoom)/(long double)imageSize + (xCoordinate - (2/zoom));
+        c.im = im*(4/zoom)/(long double)imageSize + (-yCoordinate - (2/zoom));
 
-        // The complex number is not in the set if it escapes to infinity.
-        while (abs(z) < 2 && currentIteration <= iterations) {
 
-            z = pow(z,2) + c;
-            currentIteration++;
+        for(i = 0; i < iterations; i++)
+        {
+
+            // (a + bi)^2 = a^2 + 2abi - b^2
+            temp = z.re*z.re - z.im*z.im + c.re;
+            z.im = 2 * z.re * z.im + c.im;
+            z.re = temp;
+
+            // abs(z) > 2.0 == abs(z)^2 > 4.0
+            if (z.re*z.re + z.im*z.im > 4.0L)
+            {
+                return (uint8_t)(i * 255.0L / iterations);
+            }
         }
 
-        // Returns a color value for a single pixel.
-        if (currentIteration < iterations) {
-            return 255*currentIteration/iterations;
-        }
-
-
-        else return 0;
+        return 0;
 }
 
 
 
-void drawPPM(uint8_t *pixels, const std::string &fileName,
+void Jarge::drawPPM(uint8_t *pixels, const std::string &fileName,
              unsigned int &imageSize)
 {
     // Draws a PPM image using color data from iterate()
@@ -69,7 +71,7 @@ void drawPPM(uint8_t *pixels, const std::string &fileName,
 
 
 
-void drawPNG(std::vector<uint8_t>& imageBuffer, const std::string &fileName,
+void Jarge::drawPNG(std::vector<uint8_t>& imageBuffer, const std::string &fileName,
              unsigned int &imageSize) {
 
     //Encode the image
