@@ -142,7 +142,7 @@
      </rect>
     </property>
     <property name="decimals">
-     <number>8</number>
+     <number>16</number>
     </property>
     <property name="minimum">
      <double>-2.000000000000000</double>
@@ -164,7 +164,7 @@
      </rect>
     </property>
     <property name="decimals">
-     <number>8</number>
+     <number>16</number>
     </property>
     <property name="minimum">
      <double>-2.000000000000000</double>
@@ -248,7 +248,7 @@
      <x>0</x>
      <y>0</y>
      <width>400</width>
-     <height>25</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>
