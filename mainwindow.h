@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <thread>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -20,7 +21,13 @@ private slots:
 
     void on_sizeSpinBox_valueChanged(int arg1);
 
+
+
 private:
+
+    void calculate();
+    void threadCalculate(unsigned threadIndex);
+
     Ui::MainWindow *ui;
 
     unsigned int iterations_;
@@ -34,5 +41,8 @@ private:
     std::string fileName_;
 
     uint8_t* pixelArray_;
+    unsigned int threadCount;
+    std::vector<uint8_t> imageBuffer;
+    std::vector<std::thread> threadPool;
 };
 #endif // MAINWINDOW_H
